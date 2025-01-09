@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateWordDto {
   @IsNotEmpty() // La propiedad es obligatoria
@@ -10,7 +10,7 @@ export class CreateWordDto {
   @IsString()
   definition: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   exampleSentence: string;
 }

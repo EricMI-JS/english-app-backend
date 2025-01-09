@@ -10,6 +10,8 @@ export class WordsController {
 
   @Post()
   create(@Body() createWordDto: CreateWordDto) {
+    console.log('entro al create');
+    
     return this.wordsService.create(createWordDto);
   }
 

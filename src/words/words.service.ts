@@ -8,11 +8,12 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class WordsService {
   constructor(
-    @InjectRepository(Word) private readonly wordRepository : Repository<Word>
-  ) {}
+    @InjectRepository(Word) private readonly wordRepository: Repository<Word>
+  ) { }
 
-  create(createWordDto: CreateWordDto) {
-    return this.wordRepository.create(createWordDto);
+  async create(createWordDto: CreateWordDto): Promise<Word> {
+    const newWord = this.wordRepository.create(createWordDto); // Crear instancia
+    return this.wordRepository.save(newWord); // Guardar en la base de datos
   }
 
   findAll() {
@@ -20,8 +21,8 @@ export class WordsService {
   }
 
   async findOne(id: number) {
-    const word = await this.wordRepository.findOneBy({id});
-    if(!word) {
+    const word = await this.wordRepository.findOneBy({ id });
+    if (!word) {
       throw new NotFoundException('La palabra no existe');
     }
     return word
@@ -36,7 +37,7 @@ export class WordsService {
 
   async remove(id: number) {
     const word = await this.findOne(id)
-     await this.wordRepository.remove(word)
+    await this.wordRepository.remove(word)
     return "Palabra Eliminada"
   }
 }
