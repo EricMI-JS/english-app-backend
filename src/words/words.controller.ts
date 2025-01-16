@@ -17,6 +17,8 @@ export class WordsController {
 
   @Get()
   findAll() {
+    console.log('entro');
+    
     return this.wordsService.findAll();
   }
 

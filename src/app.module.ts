@@ -6,6 +6,7 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { WordsModule } from './words/words.module';
+import { QuizModule } from './quiz/quiz.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { WordsModule } from './words/words.module';
       useFactory: typeOrmConfig,
       inject: [ConfigService]
     }),
-    WordsModule
+    WordsModule,
+    QuizModule
   ],
   controllers: [AppController],
   providers: [AppService],
