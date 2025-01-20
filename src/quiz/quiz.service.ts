@@ -35,20 +35,34 @@ export class QuizService {
     return quiz;
   }
 
-  // Método para generar una sola pregunta
   private generateSingleQuestion(currentWord: Word, remainingWords: Word[]): Question {
+    // Asegurarse de que hay suficientes palabras para generar opciones
+    if (remainingWords.length < 3) {
+        throw new Error('Not enough words to generate options');
+    }
 
-    const options = remainingWords.map((word) => word.definition).slice(0,4).concat(currentWord.definition)
+    // Seleccionar 3 palabras aleatorias de remainingWords sin repetirse
+    const randomOptions = this.shuffleArray(remainingWords)
+        .slice(0, 3)
+        .map(word => word.definition);  // Extraemos las definiciones
 
+    // Añadir la definición correcta a las opciones
+    randomOptions.push(currentWord.definition);
+
+    // Barajar todas las opciones (incluyendo la correcta)
+    const shuffledOptions = this.shuffleArray(randomOptions);
+
+    // Crear la pregunta
     const question: Question = {
-      id: currentWord.id,
-      text: currentWord.word,
-      options: this.shuffleArray(options),
-      correctAnswer: options.findIndex(option => option === currentWord.definition),
+        id: currentWord.id,
+        text: currentWord.word,
+        options: shuffledOptions,
+        correctAnswer: shuffledOptions.indexOf(currentWord.definition),  // Usar indexOf para encontrar la respuesta correcta
     };
 
     return question;
-  }
+}
+
 
   // Mezclar el array
   private shuffleArray(array: any[]): any[] {
