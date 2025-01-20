@@ -26,7 +26,7 @@ export class QuizService {
     const quiz: Question[] = [];
 
     // Generar tantas preguntas como se haya solicitado
-    for (let i = 0; i < numberOfQuestions; i++) {
+    for (let i = 0; i < words.length ; i++) {
       const question = this.generateSingleQuestion(words);
       quiz.push(question);
     }
