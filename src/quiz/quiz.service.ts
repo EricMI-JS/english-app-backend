@@ -58,6 +58,7 @@ export class QuizService {
         text: currentWord.word,
         options: shuffledOptions,
         correctAnswer: shuffledOptions.indexOf(currentWord.definition),  // Usar indexOf para encontrar la respuesta correcta
+        exampleSentence: currentWord.exampleSentence
     };
 
     return question;
