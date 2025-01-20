@@ -10,15 +10,11 @@ export class WordsController {
 
   @Post()
   create(@Body() createWordDto: CreateWordDto) {
-    console.log('entro al create');
-    
     return this.wordsService.create(createWordDto);
   }
 
   @Get()
   findAll() {
-    console.log('entro');
-    
     return this.wordsService.findAll();
   }
 
