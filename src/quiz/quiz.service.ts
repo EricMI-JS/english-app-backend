@@ -32,7 +32,7 @@ export class QuizService {
       quiz.push(question);
     });
 
-    return quiz;
+    return this.shuffleArray(quiz);
   }
 
   private generateSingleQuestion(currentWord: Word, remainingWords: Word[]): Question {
