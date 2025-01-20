@@ -26,41 +26,32 @@ export class QuizService {
     const quiz: Question[] = [];
 
     // Generar tantas preguntas como se haya solicitado
-    for (let i = 0; i < words.length ; i++) {
-      const question = this.generateSingleQuestion(words);
+    words.forEach(currentWord => {
+      const remainingWords = words.filter((el) => el.id !== currentWord.id);
+      const question = this.generateSingleQuestion(currentWord, remainingWords);
       quiz.push(question);
-    }
+    });
 
     return quiz;
   }
 
   // Método para generar una sola pregunta
-  private generateSingleQuestion(words: Word[]): Question {
-    const randomIndex = Math.floor(Math.random() * words.length);
-    const correctWord = words[randomIndex];
-    const options = this.getRandomOptions(words, correctWord.definition);
+  private generateSingleQuestion(currentWord: Word, remainingWords: Word[]): Question {
+
+    const options = remainingWords.map((word) => word.definition).slice(0,4).concat(currentWord.definition)
 
     const question: Question = {
-      id: correctWord.id,
-      text: correctWord.word,
-      options: options.map(option => option.definition),
-      correctAnswer: options.findIndex(option => option.id === correctWord.id),
+      id: currentWord.id,
+      text: currentWord.word,
+      options: this.shuffleArray(options),
+      correctAnswer: options.findIndex(option => option === currentWord.definition),
     };
 
     return question;
   }
 
-  // Seleccionar opciones aleatorias
-  private getRandomOptions(words: Word[], correctAnswer: string): Word[] {
-    const otherWords = words.filter(word => word.definition !== correctAnswer);
-    const shuffledWords = this.shuffleArray(otherWords);
-    const randomOptions = shuffledWords.slice(0, 3);
-    randomOptions.push(words.find(word => word.definition === correctAnswer));
-    return this.shuffleArray(randomOptions);
-  }
-
   // Mezclar el array
-  private shuffleArray(array: Word[]): Word[] {
+  private shuffleArray(array: any[]): any[] {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
