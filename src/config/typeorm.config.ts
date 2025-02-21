@@ -9,7 +9,9 @@ export const typeOrmConfig = (configService: ConfigService) : TypeOrmModuleOptio
     username: configService.get('DATABASE_USER'),
     password:  configService.get('DATABASE_PASS'),
     database: configService.get('DATABASE_NAME'),
-    ssl: true,
+    ssl: {
+        rejectUnauthorized: false // Allows self-signed certificates
+    },
     logging: false,
     entities: [join(__dirname + '../../**/*.entity.{js,ts}')],
     synchronize: true
