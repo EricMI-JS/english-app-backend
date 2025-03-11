@@ -29,6 +29,43 @@ export class QuizService {
   }
 
   /**
+   * Genera un quiz personalizado con palabras específicas por ID
+   */
+  async generateCustomQuiz(wordIds: string[]): Promise<QuizResponseDto> {
+    if (!wordIds || wordIds.length === 0) {
+      throw new Error('Se requiere al menos un ID de palabra para generar un quiz personalizado');
+    }
+
+    // Obtener todas las palabras para usar como opciones incorrectas
+    const allWords = await this.wordService.getAllWords();
+    
+    if (allWords.length < 4) {
+      throw new Error('Se necesitan al menos 4 palabras en la base de datos para generar un quiz');
+    }
+
+    // Obtener las palabras específicas por ID
+    const customWords: WordResponseDto[] = [];
+    
+    for (const id of wordIds) {
+      const word = await this.wordService.getWordById(id);
+      if (word) {
+        customWords.push(word);
+      }
+    }
+
+    if (customWords.length === 0) {
+      throw new Error('No se encontraron palabras con los IDs proporcionados');
+    }
+
+    // Crear preguntas para cada palabra personalizada
+    const questions: QuizQuestion[] = customWords.map(word => {
+      return this.createQuizQuestion(word, allWords);
+    });
+
+    return { questions };
+  }
+
+  /**
    * Crea una pregunta de quiz para una palabra específica
    */
   private createQuizQuestion(currentWord: WordResponseDto, allWords: WordResponseDto[]): QuizQuestion {
