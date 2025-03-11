@@ -7,8 +7,17 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/englis
 
 export const connectDB = async (): Promise<void> => {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('MongoDB connected successfully');
+    let uri = MONGODB_URI;
+    if (!uri.endsWith('/english-app')) {
+      if (uri.endsWith('/')) {
+        uri += 'english-app';
+      } else {
+        uri += '/english-app';
+      }
+    }
+    
+    await mongoose.connect(uri);
+    console.log('MongoDB connected successfully to english-app database');
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);

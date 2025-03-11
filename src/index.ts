@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database';
 import wordRoutes from './routes/wordRoutes';
+import quizRoutes from './routes/quizRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 
 // Cargar variables de entorno
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.use('/api/words', wordRoutes);
+app.use('/api/quiz', quizRoutes);
 
 // Ruta de bienvenida
 app.get('/', (req, res) => {
@@ -26,7 +28,8 @@ app.get('/', (req, res) => {
     message: 'API de English App',
     version: '1.0.0',
     endpoints: {
-      words: '/api/words'
+      words: '/api/words',
+      quiz: '/api/quiz'
     }
   });
 });

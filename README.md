@@ -1,6 +1,6 @@
 # English App API
 
-API RESTful para la aplicación English App, que permite gestionar un vocabulario de palabras en inglés.
+API RESTful para la aplicación English App, que permite gestionar un vocabulario de palabras en inglés y generar quizzes para practicar.
 
 ## Tecnologías utilizadas
 
@@ -32,7 +32,7 @@ npm install
 Crear un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 ```
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/english-app
+MONGODB_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/
 NODE_ENV=development
 ```
 
@@ -73,7 +73,11 @@ src/
 - `PUT /api/words/:id` - Actualizar una palabra existente
 - `DELETE /api/words/:id` - Eliminar una palabra
 
-## Modelo de datos
+### Quiz
+
+- `GET /api/quiz` - Generar un quiz con todas las palabras disponibles
+
+## Modelos de datos
 
 ### Palabra (Word)
 
@@ -85,6 +89,26 @@ src/
   "exampleSentence": "string",
   "createdAt": "date",
   "updatedAt": "date"
+}
+```
+
+### Quiz
+
+```json
+{
+  "questions": [
+    {
+      "id": "string",
+      "word": "string",
+      "options": [
+        {
+          "id": "string",
+          "text": "string"
+        }
+      ],
+      "correctOptionId": "string"
+    }
+  ]
 }
 ```
 
