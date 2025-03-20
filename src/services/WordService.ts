@@ -27,6 +27,7 @@ export class WordService {
     const savedWord = await newWord.save();
     return this.mapWordToDto(savedWord);
   }
+  
 
   /**
    * Actualiza una palabra existente
